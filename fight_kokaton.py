@@ -1,3 +1,4 @@
+import math
 import os
 import random
 import sys
@@ -41,6 +42,7 @@ class Bird:
         self.img = __class__.imgs[(+5, 0)]
         self.rct: pg.Rect = self.img.get_rect()
         self.rct.center = xy
+        self.dire = (+5, 0)
 
     def change_img(self, num: int, screen: pg.Surface):
         self.img = pg.transform.rotozoom(pg.image.load(f"fig/{num}.png"), 0, 0.9)
@@ -55,8 +57,9 @@ class Bird:
         self.rct.move_ip(sum_mv)
         if check_bound(self.rct) != (True, True):
             self.rct.move_ip(-sum_mv[0], -sum_mv[1])
-        if not (sum_mv[0] == 0 and sum_mv[1] == 0):
-            self.img = __class__.imgs[tuple(sum_mv)]
+        if sum_mv != [0, 0]:
+            self.dire = tuple(sum_mv)  # ← 移動したら向きを更新
+            self.img = __class__.imgs[self.dire]
         screen.blit(self.img, self.rct)
 
 class Beam:
@@ -66,6 +69,20 @@ class Beam:
         self.rct.centery = bird.rct.centery
         self.rct.left = bird.rct.right
         self.vx, self.vy = +5, 0
+        self.vx, self.vy = bird.dire  # ← 向きに応じた速度を取得
+        self.vx *= 1
+        self.vy *= 1
+        img0 = pg.image.load("fig/beam.png")
+
+        angle = math.degrees(math.atan2(-self.vy, self.vx))  # ← ビームの向きを計算
+        self.img = pg.transform.rotozoom(img0, angle, 1.0)  # ← 回転したビーム画像
+        self.rct = self.img.get_rect()
+
+        # ← こうかとんの中心＋向きに応じたオフセットを計算
+        offset_x = bird.rct.width * self.vx // 5
+        offset_y = bird.rct.height * self.vy // 5
+        self.rct.centerx = bird.rct.centerx + offset_x
+        self.rct.centery = bird.rct.centery + offset_y
 
     def update(self, screen: pg.Surface):
         self.rct.move_ip(self.vx, self.vy)
