@@ -18,6 +18,7 @@ def check_bound(obj_rct: pg.Rect) -> tuple[bool, bool]:
         tate = False
     return yoko, tate
 
+#こうかとんクラス
 class Bird:
     delta = {
         pg.K_UP: (0, -5),
@@ -62,6 +63,7 @@ class Bird:
             self.img = __class__.imgs[self.dire]
         screen.blit(self.img, self.rct)
 
+#ビームクラス
 class Beam:
     def __init__(self, bird:"Bird"):
         self.img = pg.image.load("fig/beam.png")
