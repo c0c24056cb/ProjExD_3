@@ -90,6 +90,7 @@ class Beam:
         self.rct.move_ip(self.vx, self.vy)
         screen.blit(self.img, self.rct)
 
+#爆弾クラス
 class Bomb:
     def __init__(self, color: tuple[int, int, int], rad: int):
         self.img = pg.Surface((2*rad, 2*rad))
@@ -108,6 +109,7 @@ class Bomb:
         self.rct.move_ip(self.vx, self.vy)
         screen.blit(self.img, self.rct)
 
+#スコアクラス
 class Score:
     def __init__(self):
         self.fonto = pg.font.SysFont("hgp創英角ﾎﾟｯﾌﾟ体", 30)
@@ -124,6 +126,7 @@ class Score:
     def add_score(self, amount: int):
         self.score += amount
 
+#爆発クラス
 class Explosion:
     """爆発エフェクト用クラス"""
     def __init__(self, center: tuple[int, int]):
@@ -138,6 +141,7 @@ class Explosion:
         self.life -= 1
         screen.blit(self.imgs[self.life % 2], self.rct)  # フリップ画像を交互表示
 
+#main関数
 def main():
     pg.display.set_caption("たたかえ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
