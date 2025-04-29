@@ -83,6 +83,10 @@ class Bird:
             self.img = __class__.imgs[tuple(sum_mv)]
         screen.blit(self.img, self.rct)
 
+    def happy_img(self, num: int, screen: pg.Surface):
+        self.img = pg.transform.rotozoom(pg.image.load(f"fig/6.png"), 0, 0.9)
+        screen.blit(self.img, self.rct)
+
 
 class Beam:
     """
@@ -172,6 +176,9 @@ def main():
                 if beam.rct.colliderect(bomb.rct):
                     beam = None
                     bomb = None
+                    bird.happy_img(8, screen)
+                    
+                    
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
